@@ -58,8 +58,8 @@ class EditUser extends AbstractHookProvider {
 			return;
 		}
 
-		add_action( 'load-profile.php', [ $this, 'load_screen' ] );
-		add_action( 'load-user-edit.php', [ $this, 'load_screen' ] );
+		add_action( 'load-profile.php', $this->load_screen(...) );
+		add_action( 'load-user-edit.php', $this->load_screen(...) );
 	}
 
 	/**
@@ -68,9 +68,9 @@ class EditUser extends AbstractHookProvider {
 	 * @since 0.3.0
 	 */
 	public function load_screen() {
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		add_action( 'edit_user_profile', [ $this, 'render_api_keys_section' ] );
-		add_action( 'show_user_profile', [ $this, 'render_api_keys_section' ] );
+		add_action( 'admin_enqueue_scripts', $this->enqueue_assets(...) );
+		add_action( 'edit_user_profile', $this->render_api_keys_section(...) );
+		add_action( 'show_user_profile', $this->render_api_keys_section(...) );
 	}
 
 	/**

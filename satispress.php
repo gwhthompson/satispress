@@ -73,4 +73,4 @@ $satispress = plugin()
 	->register_hooks( $satispress_container->get( 'hooks.deactivation' ) )
 	->register_hooks( $satispress_container->get( 'hooks.authentication' ) );
 
-add_action( 'plugins_loaded', [ $satispress, 'compose' ], 5 );
+add_action( 'plugins_loaded', $satispress->compose(...), 5 );

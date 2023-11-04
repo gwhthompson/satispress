@@ -34,7 +34,7 @@ class Upgrade extends AbstractHookProvider {
 	 *
 	 * @var string
 	 */
-	const VERSION_OPTION_NAME = 'satispress_version';
+	final public const VERSION_OPTION_NAME = 'satispress_version';
 
 	/**
 	 * Htaccess handler.
@@ -102,7 +102,7 @@ class Upgrade extends AbstractHookProvider {
 	 * @since 0.3.0
 	 */
 	public function register_hooks() {
-		add_action( 'admin_init', [ $this, 'maybe_upgrade' ] );
+		add_action( 'admin_init', $this->maybe_upgrade(...) );
 	}
 
 	/**

@@ -59,7 +59,7 @@ class RequestHandler extends AbstractHookProvider {
 	 * @since 0.3.0
 	 */
 	public function register_hooks() {
-		add_action( 'parse_request', [ $this, 'dispatch' ] );
+		add_action( 'parse_request', $this->dispatch(...) );
 	}
 
 	/**

@@ -76,11 +76,11 @@ class Authentication extends AbstractHookProvider {
 			return;
 		}
 
-		add_filter( 'determine_current_user', [ $this, 'determine_current_user' ] );
-		add_filter( 'user_has_cap', [ $this, 'maybe_allow_public_access' ] );
+		add_filter( 'determine_current_user', $this->determine_current_user(...) );
+		add_filter( 'user_has_cap', $this->maybe_allow_public_access(...) );
 
 		// Allow cookie authentication to work for download requests.
-		if ( 0 === strpos( $this->get_request_path(), '/satispress' ) ) {
+		if ( str_starts_with($this->get_request_path(), '/satispress') ) {
 			remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
 		}
 	}
@@ -115,7 +115,7 @@ class Authentication extends AbstractHookProvider {
 			} catch ( AuthenticationException $e ) {
 				$this->auth_status = $e;
 
-				add_filter( 'rest_authentication_errors', [ $this, 'get_authentication_errors' ] );
+				add_filter( 'rest_authentication_errors', $this->get_authentication_errors(...) );
 			}
 
 			break;
@@ -167,7 +167,7 @@ class Authentication extends AbstractHookProvider {
 			return true;
 		}
 
-		if ( 0 === strpos( $request_path, '/satispress' ) ) {
+		if ( str_starts_with($request_path, '/satispress') ) {
 			return true;
 		}
 
@@ -189,11 +189,11 @@ class Authentication extends AbstractHookProvider {
 		}
 
 		$wp_base = get_home_url( null, '/', 'relative' );
-		if ( $request_path && 0 === strpos( $request_path, $wp_base ) ) {
-			$request_path = substr( $request_path, \strlen( $wp_base ) );
+		if ( $request_path && str_starts_with((string) $request_path, $wp_base) ) {
+			$request_path = substr( (string) $request_path, \strlen( $wp_base ) );
 		}
 
-		return '/' . ltrim( $request_path, '/' );
+		return '/' . ltrim( (string) $request_path, '/' );
 	}
 
 	/**

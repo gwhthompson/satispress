@@ -43,7 +43,7 @@ class REST extends AbstractHookProvider {
 	 * @since 1.0.0
 	 */
 	public function register_hooks() {
-		add_action( 'rest_api_init', [ $this, 'register_rest_controllers' ] );
+		add_action( 'rest_api_init', $this->register_rest_controllers(...) );
 	}
 
 	/**

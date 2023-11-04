@@ -50,14 +50,14 @@ class Settings extends AbstractHookProvider {
 	 */
 	public function register_hooks() {
 		if ( is_multisite() ) {
-			add_action( 'network_admin_menu', [ $this, 'add_menu_item' ] );
+			add_action( 'network_admin_menu', $this->add_menu_item(...) );
 		} else {
-			add_action( 'admin_menu', [ $this, 'add_menu_item' ] );
+			add_action( 'admin_menu', $this->add_menu_item(...) );
 		}
 
-		add_action( 'admin_init', [ $this, 'register_settings' ] );
-		add_action( 'admin_init', [ $this, 'add_sections' ] );
-		add_action( 'admin_init', [ $this, 'add_settings' ] );
+		add_action( 'admin_init', $this->register_settings(...) );
+		add_action( 'admin_init', $this->add_sections(...) );
+		add_action( 'admin_init', $this->add_settings(...) );
 	}
 
 	/**
@@ -77,10 +77,10 @@ class Settings extends AbstractHookProvider {
 			esc_html__( 'SatisPress', 'satispress' ),
 			Capabilities::MANAGE_OPTIONS,
 			'satispress',
-			[ $this, 'render_screen' ]
+			$this->render_screen(...)
 		);
 
-		add_action( 'load-' . $page_hook, [ $this, 'load_screen' ] );
+		add_action( 'load-' . $page_hook, $this->load_screen(...) );
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Settings extends AbstractHookProvider {
 	 * @since 0.3.0
 	 */
 	public function load_screen() {
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		add_action( 'admin_enqueue_scripts', $this->enqueue_assets(...) );
 		add_action( 'admin_notices', [ HealthCheck::class, 'display_authorization_notice' ] );
 		add_action( 'admin_notices', [ HealthCheck::class, 'display_permalink_notice' ] );
 	}
@@ -118,14 +118,7 @@ class Settings extends AbstractHookProvider {
 		];
 
 		if ( current_user_can( Capabilities::MANAGE_OPTIONS ) ) {
-			$preload_paths = array_merge(
-				$preload_paths,
-				[
-					'/satispress/v1/apikeys?user=' . get_current_user_id(),
-					'/satispress/v1/plugins?_fields=slug,name,type',
-					'/satispress/v1/themes?_fields=slug,name,type',
-				]
-			);
+			$preload_paths = [...$preload_paths, '/satispress/v1/apikeys?user=' . get_current_user_id(), '/satispress/v1/plugins?_fields=slug,name,type', '/satispress/v1/themes?_fields=slug,name,type'];
 		}
 
 		preload_rest_data( $preload_paths );
@@ -137,7 +130,7 @@ class Settings extends AbstractHookProvider {
 	 * @since 0.2.0
 	 */
 	public function register_settings() {
-		register_setting( 'satispress', 'satispress', [ $this, 'sanitize_settings' ] );
+		register_setting( 'satispress', 'satispress', $this->sanitize_settings(...) );
 	}
 
 	/**
@@ -163,7 +156,7 @@ class Settings extends AbstractHookProvider {
 		add_settings_field(
 			'vendor',
 			'<label for="satispress-vendor">' . esc_html__( 'Vendor', 'satispress' ) . '</label>',
-			[ $this, 'render_field_vendor' ],
+			$this->render_field_vendor(...),
 			'satispress',
 			'default'
 		);
@@ -179,7 +172,7 @@ class Settings extends AbstractHookProvider {
 	 */
 	public function sanitize_settings( array $value ): array {
 		if ( ! empty( $value['vendor'] ) ) {
-			$value['vendor'] = preg_replace( '/[^a-z0-9_\-\.]+/i', '', $value['vendor'] );
+			$value['vendor'] = preg_replace( '/[^a-z0-9_\-\.]+/i', '', (string) $value['vendor'] );
 		}
 
 		return (array) apply_filters( 'satispress_sanitize_settings', $value );
@@ -242,7 +235,7 @@ class Settings extends AbstractHookProvider {
 	 * @param mixed  $default Optional. Default setting value.
 	 * @return mixed
 	 */
-	protected function get_setting( string $key, $default = null ) {
+	protected function get_setting( string $key, mixed $default = null ) {
 		$option = get_option( 'satispress' );
 
 		return $option[ $key ] ?? $default;

@@ -80,13 +80,13 @@ class PackageArchiver extends AbstractHookProvider {
 	 * @since 0.3.0
 	 */
 	public function register_hooks() {
-		add_action( 'add_option_satispress_plugins', [ $this, 'archive_on_option_add' ], 10, 2 );
-		add_action( 'add_option_satispress_themes', [ $this, 'archive_on_option_add' ], 10, 2 );
-		add_action( 'update_option_satispress_plugins', [ $this, 'archive_on_option_update' ], 10, 3 );
-		add_action( 'update_option_satispress_themes', [ $this, 'archive_on_option_update' ], 10, 3 );
-		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'archive_updates' ], 9999 );
-		add_filter( 'pre_set_site_transient_update_themes', [ $this, 'archive_updates' ], 9999 );
-		add_filter( 'upgrader_post_install', [ $this, 'archive_on_upgrade' ], 10, 3 );
+		add_action( 'add_option_satispress_plugins', $this->archive_on_option_add(...), 10, 2 );
+		add_action( 'add_option_satispress_themes', $this->archive_on_option_add(...), 10, 2 );
+		add_action( 'update_option_satispress_plugins', $this->archive_on_option_update(...), 10, 3 );
+		add_action( 'update_option_satispress_themes', $this->archive_on_option_update(...), 10, 3 );
+		add_filter( 'pre_set_site_transient_update_plugins', $this->archive_updates(...), 9999 );
+		add_filter( 'pre_set_site_transient_update_themes', $this->archive_updates(...), 9999 );
+		add_filter( 'upgrader_post_install', $this->archive_on_upgrade(...), 10, 3 );
 	}
 
 	/**

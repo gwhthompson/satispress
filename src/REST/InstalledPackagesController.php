@@ -31,7 +31,7 @@ class InstalledPackagesController extends WP_REST_Controller {
 	 *
 	 * @var string
 	 */
-	const SLUG_PATTERN = '[^.\/]+(?:\/[^.\/]+)?';
+	final public const SLUG_PATTERN = '[^.\/]+(?:\/[^.\/]+)?';
 
 	/**
 	 * Package repository.
@@ -73,12 +73,12 @@ class InstalledPackagesController extends WP_REST_Controller {
 			[
 				[
 					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => [ $this, 'get_items' ],
-					'permission_callback' => [ $this, 'get_items_permissions_check' ],
+					'callback'            => $this->get_items(...),
+					'permission_callback' => $this->get_items_permissions_check(...),
 					'show_in_index'       => false,
 					'args'                => $this->get_collection_params(),
 				],
-				'schema' => [ $this, 'get_public_item_schema' ],
+				'schema' => $this->get_public_item_schema(...),
 			]
 		);
 	}

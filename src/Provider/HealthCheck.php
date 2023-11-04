@@ -48,7 +48,7 @@ class HealthCheck extends AbstractHookProvider {
 	 * @since 0.7.1
 	 */
 	public function register_hooks() {
-		add_action( 'admin_post_nopriv_satispress_check_authorization_header', [ $this, 'handle_authorization_request' ] );
+		add_action( 'admin_post_nopriv_satispress_check_authorization_header', $this->handle_authorization_request(...) );
 	}
 
 	/**
@@ -147,7 +147,7 @@ class HealthCheck extends AbstractHookProvider {
 			);
 		}
 
-		$json = json_decode( wp_remote_retrieve_body( $response ) );
+		$json = json_decode( wp_remote_retrieve_body( $response ), null, 512, JSON_THROW_ON_ERROR );
 
 		if ( ! isset( $json->success ) ) {
 			throw new \UnexpectedValueException( 'The authorization header check failed; the response could not be parsed as JSON.' );

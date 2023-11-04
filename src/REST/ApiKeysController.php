@@ -32,7 +32,7 @@ class ApiKeysController extends WP_REST_Controller {
 	 *
 	 * @var string
 	 */
-	const TOKEN_PATTERN = '[A-Za-z0-9]{32}';
+	final public const TOKEN_PATTERN = '[A-Za-z0-9]{32}';
 
 	/**
 	 * API Key factory.
@@ -84,19 +84,19 @@ class ApiKeysController extends WP_REST_Controller {
 			[
 				[
 					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => [ $this, 'get_items' ],
-					'permission_callback' => [ $this, 'get_items_permissions_check' ],
+					'callback'            => $this->get_items(...),
+					'permission_callback' => $this->get_items_permissions_check(...),
 					'show_in_index'       => false,
 					'args'                => $this->get_collection_params(),
 				],
 				[
 					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => [ $this, 'create_item' ],
-					'permission_callback' => [ $this, 'create_item_permissions_check' ],
+					'callback'            => $this->create_item(...),
+					'permission_callback' => $this->create_item_permissions_check(...),
 					'show_in_index'       => false,
 					'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
 				],
-				'schema' => [ $this, 'get_public_item_schema' ],
+				'schema' => $this->get_public_item_schema(...),
 			]
 		);
 
@@ -106,8 +106,8 @@ class ApiKeysController extends WP_REST_Controller {
 			[
 				[
 					'methods'             => WP_REST_Server::DELETABLE,
-					'callback'            => [ $this, 'delete_item' ],
-					'permission_callback' => [ $this, 'delete_item_permissions_check' ],
+					'callback'            => $this->delete_item(...),
+					'permission_callback' => $this->delete_item_permissions_check(...),
 					'show_in_index'       => false,
 				],
 				'args'   => [
@@ -116,9 +116,7 @@ class ApiKeysController extends WP_REST_Controller {
 						'type'              => 'string',
 						'pattern'           => self::TOKEN_PATTERN,
 						'required'          => true,
-						'sanitize_callback' => function ( $value ) {
-							return preg_replace( '/[^A-Za-z0-9]+/', '', $value );
-						},
+						'sanitize_callback' => fn($value) => preg_replace( '/[^A-Za-z0-9]+/', '', (string) $value ),
 					],
 					'user'    => [
 						'description' => esc_html__( 'The ID for the user associated with the API Key.', 'satispress' ),
@@ -127,7 +125,7 @@ class ApiKeysController extends WP_REST_Controller {
 						'required'    => true,
 					],
 				],
-				'schema' => [ $this, 'get_public_item_schema' ],
+				'schema' => $this->get_public_item_schema(...),
 			]
 		);
 	}
