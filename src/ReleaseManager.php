@@ -87,7 +87,7 @@ class ReleaseManager {
 		$package    = $release->get_package();
 		$source_url = $release->get_source_url();
 
-		if ( ! empty( $source_url ) ) {
+		if ( $source_url !== '' ) {
 			$filename = $this->archiver->archive_from_url( $release );
 		} elseif ( $package->is_installed() && $package->is_installed_release( $release ) ) {
 			$filename = $this->archiver->archive_from_source( $package, $release->get_version() );

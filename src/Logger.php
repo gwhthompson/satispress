@@ -116,15 +116,15 @@ final class Logger extends AbstractLogger
                 continue;
             }
 
-            array_push($search, '{'.$key.'}');
-            array_push($replace, $this->to_string($value));
+            $search[] = '{'.$key.'}';
+            $replace[] = $this->to_string($value);
             unset($context[$key]);
         }
 
         $line = str_replace($search, $replace, $message);
 
         // Append additional context data.
-        if (!empty($context)) {
+        if ($context !== []) {
             $line .= ' '.wp_json_encode($context, \JSON_UNESCAPED_SLASHES);
         }
 

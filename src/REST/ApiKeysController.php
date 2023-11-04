@@ -335,13 +335,10 @@ class ApiKeysController extends WP_REST_Controller {
 	 * @param string $token API Key token.
 	 * @return bool
 	 */
-	protected function validate_token_param( $token ) {
-		if ( is_string( $token ) && ! preg_match( '/' . self::TOKEN_PATTERN . '/', $token ) ) {
-			return true;
-		}
-
-		return false;
-	}
+	protected function validate_token_param($token)
+ {
+     return is_string( $token ) && ! preg_match( '/' . self::TOKEN_PATTERN . '/', $token );
+ }
 
 	/**
 	 * Get the package schema, conforming to JSON Schema.

@@ -38,8 +38,8 @@ final class Factory {
 			$data['created'] = time();
 		}
 
-		if ( empty( $token ) ) {
-			$token = self::generate_token();
+		if ( $token === null || $token === '' ) {
+			$token = $this->generate_token();
 		}
 
 		return new ApiKey( $user, $token, $data );
@@ -52,7 +52,7 @@ final class Factory {
 	 *
 	 * @return string
 	 */
-	private static function generate_token(): string {
+	private function generate_token(): string {
 		return generate_random_string( ApiKey::TOKEN_LENGTH );
 	}
 }

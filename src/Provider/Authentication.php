@@ -166,12 +166,7 @@ class Authentication extends AbstractHookProvider {
 		if ( ! empty( $_GET['satispress_route'] ) ) {
 			return true;
 		}
-
-		if ( str_starts_with($request_path, '/satispress') ) {
-			return true;
-		}
-
-		return false;
+  return str_starts_with($request_path, '/satispress');
 	}
 
 	/**

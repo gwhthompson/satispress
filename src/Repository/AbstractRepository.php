@@ -39,7 +39,7 @@ abstract class AbstractRepository {
 	 * @return bool
 	 */
 	public function contains( array $args ): bool {
-		return ! empty( $this->where( $args ) );
+		return $this->where( $args ) !== [];
 	}
 
 	/**
@@ -82,7 +82,7 @@ abstract class AbstractRepository {
 	 */
 	public function first_where( array $args ) {
 		$items = $this->where( $args );
-		return empty( $items ) ? null : reset( $items );
+		return $items === [] ? null : reset( $items );
 	}
 
 	/**

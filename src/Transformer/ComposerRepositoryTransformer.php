@@ -98,7 +98,7 @@ class ComposerRepositoryTransformer implements PackageRepositoryTransformer {
 			$item    = $this->transform_item( $package );
 
 			// Skip if there aren't any viewable releases.
-			if ( empty( $item ) ) {
+			if ( $item === [] ) {
 				continue;
 			}
 

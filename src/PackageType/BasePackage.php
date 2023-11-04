@@ -247,7 +247,7 @@ class BasePackage implements \ArrayAccess, Package
      */
     public function has_releases(): bool
     {
-        return !empty($this->releases);
+        return $this->releases !== [];
     }
 
     /**

@@ -130,12 +130,7 @@ class Local implements Storage {
 		if ( ! wp_mkdir_p( \dirname( $filename ) ) ) {
 			return false;
 		}
-
-		if ( ! rename( $source, $filename ) ) {
-			return false;
-		}
-
-		return true;
+  return rename( $source, $filename );
 	}
 
 	/**

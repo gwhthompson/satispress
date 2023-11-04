@@ -205,11 +205,7 @@ final class ApiKey implements \ArrayAccess
         // Handle manual offsets, like "UTC+2".
         if (empty($timezone_id)) {
             $offset = (int) get_option('gmt_offset', 0);
-            if (0 <= $offset) {
-                $formatted_offset = '+'.(string) $offset;
-            } else {
-                $formatted_offset = (string) $offset;
-            }
+            $formatted_offset = 0 <= $offset ? '+'.(string) $offset : (string) $offset;
             $timezone_id = str_replace(
                 ['.25', '.5', '.75'],
                 [':15', ':30', ':45'],

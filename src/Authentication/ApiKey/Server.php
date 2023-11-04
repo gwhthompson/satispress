@@ -59,13 +59,8 @@ class Server implements ServerInterface {
 
 		// The password field isn't used for API Key authentication.
 		$realm = $request->get_header( 'PHP_AUTH_PW' );
-
-		// Bail if this isn't a SatisPress authentication request.
-		if ( 'satispress' !== $realm ) {
-			return false;
-		}
-
-		return true;
+  // Bail if this isn't a SatisPress authentication request.
+  return 'satispress' === $realm;
 	}
 
 	/**

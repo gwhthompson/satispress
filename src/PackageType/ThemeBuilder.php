@@ -29,7 +29,7 @@ final class ThemeBuilder extends PackageBuilder {
 	 * @return ThemeBuilder
 	 */
 	public function from_source( string $slug, WP_Theme $theme = null ): self {
-		if ( null === $theme ) {
+		if ( !$theme instanceof \WP_Theme ) {
 			$theme = wp_get_theme( $slug );
 		}
 

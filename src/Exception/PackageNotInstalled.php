@@ -57,7 +57,7 @@ final class PackageNotInstalled extends \RuntimeException implements SatispressE
         \Throwable $previous = null
     ): PackageNotInstalled {
         $name = $package->get_name();
-        $message = "Unable to archive {$package}; source does not exist.";
+        $message = "Unable to archive {$name}; source does not exist.";
 
         return new self($message, $code, $previous);
     }

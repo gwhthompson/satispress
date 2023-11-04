@@ -183,6 +183,6 @@ class RequestHandler extends AbstractHookProvider {
 	 * @return bool
 	 */
 	protected function is_debug_mode(): bool {
-		return \defined( 'WP_DEBUG' ) && true === WP_DEBUG;
+		return \defined( 'WP_DEBUG' ) && WP_DEBUG;
 	}
 }

@@ -46,7 +46,7 @@ final class PluginBuilder extends PackageBuilder {
 		// Account for single-file plugins.
 		$directory = '.' === \dirname( $plugin_file ) ? '' : \dirname( $plugin_file );
 
-		if ( empty( $plugin_data ) ) {
+		if ( $plugin_data === [] ) {
 			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_file );
 		}
 

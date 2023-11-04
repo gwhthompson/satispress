@@ -82,11 +82,7 @@ function get_authorization_header() {
 		// Check for the authorization header case-insensitively.
 		$headers = array_change_key_case( getallheaders(), CASE_LOWER );
 
-		foreach ( $headers as $name => $value ) {
-			if ( 'authorization' === $name ) {
-				return $value;
-			}
-		}
+		return $headers['authorization'] ?? 'authorization';
 	}
 
 	return null;
